@@ -2,5 +2,5 @@
 out/
 *.iml
 *.class
-DS_Store
+.DS_Store
 artifacts/
