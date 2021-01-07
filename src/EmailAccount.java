@@ -12,23 +12,29 @@ public class EmailAccount {
     private static int numOfUsers = 0;
     private static final String COMPANY_ADDRESS = "traxus.com";
 
-    private EmailAccount( String firstName, String lastName ){
-        this.firstName = firstName;
-        this.lastName = lastName;
+    private EmailAccount(){
+        Scanner in = new Scanner( System.in );
+        System.out.print( "Enter user's first name: " );
+        this.firstName = in.nextLine();
+        System.out.print( "Enter user's last name: ");
+        this.lastName = in.nextLine();
         this.department = setDepartment();
         System.out.println( "EMAIL CREATED for: " + firstName + " " + lastName );
         System.out.println( "DEPARTMENT: " + this.department );
         this.userName = generateUserName().toLowerCase();
         System.out.println( "USER NAME: " + this.userName );
         this.password = generatePassword( 11 );
-        this.email = userName + "@" + department.toLowerCase() + "." + COMPANY_ADDRESS;
+        if( this.department.equals( "" ))
+            this.email = userName + "@" + COMPANY_ADDRESS;
+        else
+            this.email = userName + "@" + department.toLowerCase() + "." + COMPANY_ADDRESS;
         System.out.println( "EMAIL ADDRESS: " + email );
         numOfUsers++;
     }
 
-    public static EmailAccount createEmail( String firstName, String lastName ) {
+    public static EmailAccount createEmail() {
         if( numOfUsers < MAX_USERS )
-            return new EmailAccount( firstName, lastName );
+            return new EmailAccount();
         else
             throw new IllegalStateException( "Organization's servers maxed out. Please contact Administration." );
     }
@@ -119,5 +125,9 @@ public class EmailAccount {
 
     public void changeCapacity( int capacity ){
         this.mailboxCapacity = capacity;
+    }
+
+    public static int getNumOfUsers(){
+        return numOfUsers;
     }
 }
