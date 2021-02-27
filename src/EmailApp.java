@@ -12,11 +12,12 @@ public class EmailApp {
         for( int i = 0; i < numUsers; i++ ){
             accounts.add( EmailAccount.createEmail());
         }
-
+        System.out.println();
         for( EmailAccount account : accounts ){
             System.out.println( account.toString());
+            System.out.println();
         }
-
+        System.out.println();
         System.out.println( "Number of new users added: " + EmailAccount.getNumOfUsers());
         System.out.println( "Thank you for using. Please restart the program when you wish to add more users." );
     }

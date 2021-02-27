@@ -1,6 +1,12 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class EmailAccount {
+    private static final int MAX_USERS = 2500;
+    private static int numOfUsers = 0;
+    private static final String COMPANY_ADDRESS = "traxus.com";
+    
     private String firstName;
     private String lastName;
     private String userName;
@@ -8,26 +14,23 @@ public class EmailAccount {
     private String department;
     private String email;
     private int mailboxCapacity = 500;
-    private static final int MAX_USERS = 2500;
-    private static int numOfUsers = 0;
-    private static final String COMPANY_ADDRESS = "traxus.com";
 
     private EmailAccount(){
         Scanner in = new Scanner( System.in );
         System.out.print( "Enter user's first name: " );
-        this.firstName = in.nextLine();
+        firstName = in.nextLine();
         System.out.print( "Enter user's last name: ");
-        this.lastName = in.nextLine();
-        this.department = setDepartment();
+        lastName = in.nextLine();
+        department = setDepartment();
         System.out.println( "EMAIL CREATED for: " + firstName + " " + lastName );
-        System.out.println( "DEPARTMENT: " + this.department );
-        this.userName = generateUserName().toLowerCase();
-        System.out.println( "USER NAME: " + this.userName );
-        this.password = generatePassword( 11 );
-        if( this.department.equals( "" ))
-            this.email = userName + "@" + COMPANY_ADDRESS;
+        System.out.println( "DEPARTMENT: " + department );
+        userName = generateUserName().toLowerCase();
+        System.out.println( "USER NAME: " + userName );
+        password = generatePassword( 11 );
+        if( department.equals( "" ))
+            email = userName + "@" + COMPANY_ADDRESS;
         else
-            this.email = userName + "@" + department.toLowerCase() + "." + COMPANY_ADDRESS;
+            email = userName + "@" + department.toLowerCase() + "." + COMPANY_ADDRESS;
         System.out.println( "EMAIL ADDRESS: " + email );
         numOfUsers++;
     }
@@ -67,67 +70,41 @@ public class EmailAccount {
         return String.valueOf( password );
     }
 
+    public static int getMaxUsers()          { return MAX_USERS;       }
+    public static int getNumOfUsers()        { return numOfUsers;      }
+    public static String getCompanyAddress() { return COMPANY_ADDRESS; }
+
+    public String getFirstName()             { return firstName;       }
+    public String getLastName()              { return lastName;        }
+    public String getUserName()              { return userName;        }
+    public String getPassword()              { return password;        }
+    public String getDepartment()            { return department;      }
+    public String getEmail()                 { return email;           }
+    public int getMailboxCapacity()          { return mailboxCapacity; }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o == this)
+            return true;
+        if(!(o instanceof EmailAccount))
+            return false;
+        EmailAccount em = (EmailAccount) o;
+        return em.firstName.equals(firstName) && em.lastName.equals(lastName) &&
+                em.password.equals(password);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = firstName.hashCode();
+        result = 31 * result + lastName.hashCode();
+        result = 31 * result + password.hashCode();
+        return result;
+    }
+
     @Override
     public String toString(){
         return "EMPLOYEE: " + firstName + " " + lastName +
                 "\nEMAIL: " + email +
                 "\nMAILBOX CAPACITY: " + mailboxCapacity + "mb";
-    }
-
-
-    private void setFirstName( String firstName ){
-        this.firstName = firstName;
-    }
-
-    public String getFirstName(){
-        return this.firstName;
-    }
-
-    private void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    private void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getUserName(){
-        return this.userName;
-    }
-
-    public String getDepartment(){
-        return this.department;
-    }
-
-    public void changeDepartment( String department ){
-        this.department = department;
-    }
-
-    public int getMailboxCapacity(){
-        return this.mailboxCapacity;
-    }
-
-    public String getPassword(){
-        return this.password;
-    }
-
-    public void changePassword( String password ){
-        this.password = password;
-    }
-
-    public void changeEmailAddress( String email ){
-        this.email = email;
-    }
-
-    public void changeCapacity( int capacity ){
-        this.mailboxCapacity = capacity;
-    }
-
-    public static int getNumOfUsers(){
-        return numOfUsers;
     }
 }
