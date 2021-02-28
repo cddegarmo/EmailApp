@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+package appclasses;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,60 +15,75 @@ public class EmailAccount {
     private String department;
     private String email;
     private int mailboxCapacity = 500;
+    private List<String> inbox;
+    private List<String> sent;
+    private String signature;
 
-    private EmailAccount(){
-        Scanner in = new Scanner( System.in );
-        System.out.print( "Enter user's first name: " );
+    private EmailAccount() {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Enter user's first name: ");
         firstName = in.nextLine();
-        System.out.print( "Enter user's last name: ");
+        System.out.print("Enter user's last name: ");
         lastName = in.nextLine();
         department = setDepartment();
-        System.out.println( "EMAIL CREATED for: " + firstName + " " + lastName );
-        System.out.println( "DEPARTMENT: " + department );
+        System.out.println("EMAIL CREATED for: " + firstName + " " + lastName);
+        System.out.println("DEPARTMENT: " + department);
         userName = generateUserName().toLowerCase();
-        System.out.println( "USER NAME: " + userName );
-        password = generatePassword( 11 );
-        if( department.equals( "" ))
+        System.out.println("USER NAME: " + userName);
+        password = generatePassword(11);
+        if( department.equals(""))
             email = userName + "@" + COMPANY_ADDRESS;
         else
             email = userName + "@" + department.toLowerCase() + "." + COMPANY_ADDRESS;
-        System.out.println( "EMAIL ADDRESS: " + email );
+        System.out.println("EMAIL ADDRESS: " + email);
         numOfUsers++;
     }
 
     public static EmailAccount createEmail() {
-        if( numOfUsers < MAX_USERS )
+        if(numOfUsers < MAX_USERS)
             return new EmailAccount();
         else
-            throw new IllegalStateException( "Organization's servers maxed out. Please contact Administration." );
+            throw new IllegalStateException("Organization's servers maxed out. Please contact Administration.");
     }
 
     private String setDepartment(){
-        System.out.print( "Enter department:\n1 for Sales\n2 for Development\n3 for Accounting\n0 for None\n" );
-        Scanner in = new Scanner( System.in );
+        System.out.print("Enter department:\n1 for Sales\n2 for Development\n3 for Accounting\n0 for None\n");
+        Scanner in = new Scanner(System.in);
         int departmentChoice = in.nextInt();
-        if( departmentChoice == 1 )
+        if(departmentChoice == 1)
             return "Sales";
-        else if( departmentChoice == 2 )
+        else if(departmentChoice == 2)
             return "Development";
-        else if( departmentChoice == 3 )
+        else if(departmentChoice == 3)
             return "Accounting";
         else
             return "";
     }
 
     private String generateUserName() {
-        return this.firstName.charAt( 0 ) + this.lastName;
+        return this.firstName.charAt(0) + this.lastName;
     }
 
-    private String generatePassword( int length ){
+    private String generatePassword(int length){
         String alph = "abcdefghijklmnopqrstuvwxyz0123456789!@#$%&";
-        char[] password = new char[ length ];
-        for( int i = 0; i < password.length; i++ ){
-            int rand = ( int ) ( Math.random() * alph.length());
-            password[ i ] = alph.charAt( rand );
+        char[] password = new char[length];
+        for(int i = 0; i < password.length; i++){
+            int rand = (int) (Math.random() * alph.length());
+            password[i] = alph.charAt(rand);
         }
-        return String.valueOf( password );
+        return String.valueOf(password );
+    }
+
+    public void send(EmailAccount recipient, String message) {
+        recipient.receive(message);
+    }
+
+    public void receive(String message) {
+        inbox.add(message);
+    }
+
+    public void generateSignature() {
+
     }
 
     public static int getMaxUsers()          { return MAX_USERS;       }
