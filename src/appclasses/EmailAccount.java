@@ -31,7 +31,7 @@ public class EmailAccount {
         userName = generateUserName().toLowerCase();
         System.out.println("USER NAME: " + userName);
         password = generatePassword(11);
-        if( department.equals(""))
+        if(department.equals(""))
             email = userName + "@" + COMPANY_ADDRESS;
         else
             email = userName + "@" + department.toLowerCase() + "." + COMPANY_ADDRESS;
@@ -76,6 +76,7 @@ public class EmailAccount {
 
     public void send(EmailAccount recipient, String message) {
         recipient.receive(message);
+        sent.add(message);
     }
 
     public void receive(String message) {
@@ -83,7 +84,15 @@ public class EmailAccount {
     }
 
     public void generateSignature() {
+        signature = String.format("%s %s\n%s",
+                formalize(firstName), formalize(lastName),
+                formalize(department));
+    }
 
+    private String formalize(String s) {
+        String result = s.substring(0, 1).toUpperCase() +
+                s.substring(1).toLowerCase();
+        return result;
     }
 
     public static int getMaxUsers()          { return MAX_USERS;       }
@@ -119,7 +128,7 @@ public class EmailAccount {
 
     @Override
     public String toString(){
-        return "EMPLOYEE: " + firstName + " " + lastName +
+        return "EMPLOYEE: " + formalize(firstName) + " " + formalize(lastName) +
                 "\nEMAIL: " + email +
                 "\nMAILBOX CAPACITY: " + mailboxCapacity + "mb";
     }
