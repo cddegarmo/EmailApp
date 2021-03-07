@@ -12,31 +12,19 @@ public class EmailAccount {
     private String lastName;
     private String userName;
     private String password;
-    private String department; // Change to int for departmentCode
+    private Company.Department department;
     private String email;
     private int mailboxCapacity = 500;
     private List<String> inbox;
     private List<String> sent;
     private String signature;
 
-    private EmailAccount() {
-        Scanner in = new Scanner(System.in);
-        System.out.print("Enter user's first name: ");
-        firstName = in.nextLine();
-        System.out.print("Enter user's last name: ");
-        lastName = in.nextLine();
-        department = setDepartment();
-        System.out.println("EMAIL CREATED for: " + firstName + " " + lastName);
-        System.out.println("DEPARTMENT: " + department);
-        userName = generateUserName().toLowerCase();
-        System.out.println("USER NAME: " + userName);
-        password = generatePassword(11);
-        if(department.equals(""))
-            email = userName + "@" + COMPANY_ADDRESS;
-        else
-            email = userName + "@" + department.toLowerCase() + "." + COMPANY_ADDRESS;
-        System.out.println("EMAIL ADDRESS: " + email);
-        numOfUsers++;
+    private EmailAccount(String firstName, String lastName, Company.Department dep) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        department = dep;
+        userName = generateUserName();
+        password = generatePassword(8);
     }
 
     public static EmailAccount createEmail() {
@@ -71,7 +59,7 @@ public class EmailAccount {
             int rand = (int) (Math.random() * alph.length());
             password[i] = alph.charAt(rand);
         }
-        return String.valueOf(password );
+        return String.valueOf(password);
     }
 
     public void send(EmailAccount recipient, String message) {

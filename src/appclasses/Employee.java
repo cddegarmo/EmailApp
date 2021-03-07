@@ -1,27 +1,11 @@
 package appclasses;
 
 public class Employee {
-    private static final int MAX_EMPLOYEES = 2500;
-    private static int numOfEmployees = 0;
-
-    public enum Department {
-        SALES(1),
-        DEVELOPMENT(2),
-        ACCOUNTING(3),
-        EXECUTIVE(4),
-        NONE(5);
-
-        private int code;
-        Department(int value) {
-            code = value;
-        }
-        public int getCode() { return code; }
-    }
 
     private String firstName;
     private String lastName;
-    private EmailAccount email;
-    private Department department;
+    // private EmailAccount email;
+    private Company.Department department;
     private int salary;
 
     private Employee() {
@@ -50,6 +34,6 @@ public class Employee {
     public EmailAccount getEmail() { return email; }
     public String getName() { return lastName + ", " + firstName; }
     public int getSalary() { return salary; }
-    public Department getDepartment() { return department; }
+    public Company.Department getDepartment() { return department; }
 
 }
