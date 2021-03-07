@@ -12,7 +12,7 @@ public class EmailAccount {
     private String lastName;
     private String userName;
     private String password;
-    private String department;
+    private String department; // Change to int for departmentCode
     private String email;
     private int mailboxCapacity = 500;
     private List<String> inbox;
