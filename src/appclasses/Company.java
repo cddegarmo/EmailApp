@@ -3,11 +3,13 @@ package appclasses;
 import java.util.*;
 
 public interface Company {
-    void hire();
-    void fire();
+
+    void hire(Employee e);
+    void fire(Employee e);
+    void fire(List<Employee> employees);
     void communicate(String message);
     String companyToString();
-    Map<String, Integer> numPerDepartment();
-    Map<Integer, Integer> salaryPerDepartment();
+    Map<Employee.Department, Long> numByDepartment();
+    Map<Employee.Department, Integer> salaryByDepartment();
     boolean bonuses();
 }
