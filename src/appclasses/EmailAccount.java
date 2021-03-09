@@ -62,11 +62,11 @@ public class EmailAccount {
     public static int getMaxUsers()   { return MAX_USERS;  }
     public static int getNumOfUsers() { return numOfUsers; }
 
-    public String getFirstName() { return firstName;    }
-    public String getLastName()  { return lastName;     }
-    public String getUserName()  { return userName;     }
-    public String getPassword()  { return password;     }
-    public String getEmail()     { return emailAddress; }
+    public String getFirstName()      { return firstName;    }
+    public String getLastName()       { return lastName;     }
+    public String getUserName()       { return userName;     }
+    public String getPassword()       { return password;     }
+    public String getEmail()          { return emailAddress; }
 
     public String getDepartment() {
         for(Department d : Department.values()) {
@@ -83,7 +83,6 @@ public class EmailAccount {
     private int setDepartment(){
         System.out.print("Enter department:\n1 for Sales\n2 for Development" +
                 "\n3 for Accounting\n0 for None\n");
-        System.out.println();
         Scanner in = new Scanner(System.in);
         return in.nextInt();
     }
