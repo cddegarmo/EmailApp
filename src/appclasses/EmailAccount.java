@@ -1,9 +1,6 @@
 package appclasses;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class EmailAccount {
     private static final int MAX_USERS = 100;
@@ -15,7 +12,7 @@ public class EmailAccount {
     private String password;
     private final String companyName;
     private int department;
-    private String emailAddress;
+    private final String emailAddress;
     private int mailboxCurrent = 0;           // in mb
     private final int mailboxCapacity = 500;  // in mb
     private final List<String> inbox;
@@ -59,8 +56,8 @@ public class EmailAccount {
                     "Please contact administration.");
     }
 
-    public static int getMaxUsers()   { return MAX_USERS;  }
-    public static int getNumOfUsers() { return numOfUsers; }
+    public static int getMaxUsers()   { return MAX_USERS;    }
+    public static int getNumOfUsers() { return numOfUsers;   }
 
     public String getFirstName()      { return firstName;    }
     public String getLastName()       { return lastName;     }
@@ -122,6 +119,26 @@ public class EmailAccount {
         }
         else
             System.out.println("Mailbox full. Recipient needs to clear space in inbox.");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o == this)
+            return true;
+        if(!(o instanceof EmailAccount))
+            return false;
+        EmailAccount em = (EmailAccount) o;
+        return em.firstName.equals(firstName) &&
+                em.lastName.equals(lastName) &&
+                em.password.equals(password);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = firstName.hashCode();
+        result = 31 * result + lastName.hashCode();
+        result = 31 * result + password.hashCode();
+        return result;
     }
 
     @Override

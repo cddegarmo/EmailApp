@@ -23,7 +23,7 @@ public class EmailApp {
             System.out.println(ac.toString());
             System.out.println();
         }
-        
+
         System.out.println( "Thank you for using. Please restart the program when you wish to add more users." );
     }
 }

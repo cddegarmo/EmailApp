@@ -1,5 +1,6 @@
 package appclasses;
 
+import static appclasses.Company.*;
 import java.util.*;
 
 public interface Organization {
@@ -9,8 +10,8 @@ public interface Organization {
     void fire(List<Employee> employees);
     void communicate(String message);
     String companyToString();
-    Map<Company.Department, List<Employee>> employeesByDepartment();
-    Map<Company.Department, Long> countByDepartment();
-    Map<Company.Department, Integer> salaryByDepartment();
+    Map<Department, List<Employee>> employeesByDepartment();
+    Map<Department, Long> countByDepartment();
+    Map<Department, Integer> salaryByDepartment();
     boolean bonuses();
 }
