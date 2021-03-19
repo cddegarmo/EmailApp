@@ -19,16 +19,26 @@ public class EmailAccount {
     private final List<String> sent;
 
     public enum Department {
-        SALES(1),
-        DEVELOPMENT(2),
-        ACCOUNTING(3),
-        NONE(0);
+        SALES(1, "Sales"),
+        DEVELOPMENT(2, "Development"),
+        ACCOUNTING(3, "Accounting"),
+        NONE(0, "");
 
         private int code;
-        Department(int value) {
+        private String name;
+
+        Department(int value, String text) {
             code = value;
+            name = text;
         }
-        public int getCode() { return code; }
+
+        public int getCode()    { return code; }
+        public String getName() { return name; }
+
+        @Override
+        public String toString() {
+            return name.toLowerCase();
+        }
     }
 
     private EmailAccount() {
@@ -100,6 +110,13 @@ public class EmailAccount {
             password[i] = alph.charAt(rand);
         }
         return String.valueOf(password);
+    }
+
+    public String resetPassword(String s) {
+        if(s.length() < 8 || s.length() > 16)
+            throw new IllegalArgumentException("Password must be between 8 and 16 characters in length.");
+        else
+            return s;
     }
 
     public void send(EmailAccount recipient, String message) {
