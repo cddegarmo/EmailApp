@@ -95,11 +95,16 @@ public class EmailAccount {
     }
 
     private String generateUserName() {
-        return this.firstName.charAt(0) + this.lastName;
+        return this.firstName.toLowerCase().charAt(0) +
+                this.lastName.toLowerCase();
     }
 
     private String generateAddress() {
-        return userName + "@" + companyName.toLowerCase() + ".com";
+        if(department == 0)
+            return userName + "@" + companyName.toLowerCase() + ".com";
+        else
+            return userName + "@" + getDepartment() + "." +
+                    companyName.toLowerCase() + ".com";
     }
 
     private String generatePassword(int length){
