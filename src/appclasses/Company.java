@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Company implements Organization {
+    private static final Company INSTANCE = new Company("Apache", 1956, new ArrayList<>());
 
     public enum Department {
         SALES(1, "Sales"),
@@ -33,8 +34,8 @@ public class Company implements Organization {
         numOfEmployees = founders.size();
     }
 
-    public static Company found(String s, int year, List<Employee> founders) {
-        return new Company(s, year, founders);
+    public static Company found() {
+        return INSTANCE;
     }
 
     public String formalize(String s) {
