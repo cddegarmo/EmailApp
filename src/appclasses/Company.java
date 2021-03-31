@@ -102,5 +102,5 @@ public class Company implements Organization {
                                         Integer::sum)));
     }
 
-    public boolean bonuses() { return false; }
+    public boolean bonuses() { return true; }
 }
