@@ -82,7 +82,7 @@ public class Employee {
                 department = d;
         }
         this.salary = salary;
-        email = new Employee.EmailAccount(firstName, lastName, company);
+        email = EmailAccount.create(firstName, lastName, company);
     }
 
     public static Employee instance(String company, int salary) {
@@ -96,7 +96,7 @@ public class Employee {
     public EmailAccount getEmail()    { return email;                       }
     public String getUsername()       { return email.username;              }
     public String getAddress()        { return email.address;               }
-
+    
     private String formalize(String s) {
         return s.substring(0, 1).toUpperCase() +
                 s.substring(1).toLowerCase();
