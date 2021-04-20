@@ -28,7 +28,7 @@ public class Employee {
             sent = new ArrayList<>();
         }
 
-        public static EmailAccount create(String firstName, String lastName,
+        private static EmailAccount create(String firstName, String lastName,
                                           String company) {
             if (firstName.equals(""))
                 throw new IllegalArgumentException("Email must have first name for record.");
@@ -54,6 +54,17 @@ public class Employee {
                 password[i] = alph.charAt(rand);
             }
             this.password = String.valueOf(password);
+        }
+
+        private void alterPassword(String password) {
+            if (password.length() > 7 && password.length() < 17)
+                this.password = password;
+            else
+                System.out.println("Password must be 8-16 characters in length.");
+        }
+
+        public String toString() {
+            return String.format("%s%n%s%n%d%n", username, address, mailboxCapacity);
         }
     }
 
@@ -93,12 +104,34 @@ public class Employee {
     public int getSalary()            { return salary;                      }
     public Department getDepartment() { return department;                  }
     public Sex getGender()            { return gender;                      }
-    public EmailAccount getEmail()    { return email;                       }
+    public String getEmail()    { return email.toString();                       }
     public String getUsername()       { return email.username;              }
     public String getAddress()        { return email.address;               }
+
+    public void changePassword(String password) {
+        email.alterPassword(password);
+    }
     
     private String formalize(String s) {
         return s.substring(0, 1).toUpperCase() +
                 s.substring(1).toLowerCase();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Employee))
+            return false;
+        Employee em = (Employee) o;
+        return em.firstName.equals(firstName) &&
+             em.lastName.equals(lastName);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = firstName.hashCode();
+        result = 31 * result + lastName.hashCode();
+        return result;
     }
 }
