@@ -8,6 +8,6 @@ public class Register {
         System.out.println(one.getName());
         System.out.println(one.getDepartment());
         System.out.println(one.getUsername());
-        System.out.println(one.getAddress());
+        System.out.println(one.getEmail());
     }
 }
