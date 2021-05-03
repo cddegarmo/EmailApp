@@ -1,9 +1,9 @@
 package user;
 
 import appclasses.EmailAccount;
-
 import java.util.*;
 
+// Simple tool utilizes EmailAccount.java to create email accounts based on user input
 public class EmailApp {
     public static void main( String[] args ) {
         Scanner s = new Scanner(System.in);
@@ -16,12 +16,11 @@ public class EmailApp {
             accounts.add(EmailAccount.create());
         }
 
-        System.out.println("Users added: ");
-        System.out.println();
+        System.out.println("Users added: \n");
+
 
         for(EmailAccount ac : accounts) {
-            System.out.println(ac.toString());
-            System.out.println();
+            System.out.println(ac.toString() + "\n");
         }
 
         System.out.println( "Thank you for using. Please restart the program when you wish to add more users." );

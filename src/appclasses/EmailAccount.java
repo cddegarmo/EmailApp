@@ -2,6 +2,8 @@ package appclasses;
 
 import java.util.*;
 
+// This class is designed to be used with EmailApp. It represents the email account
+// of an employee in a database.
 public class EmailAccount {
     private static final int MAX_USERS = 100;
     private static int numOfUsers = 0;
@@ -41,6 +43,7 @@ public class EmailAccount {
         }
     }
 
+    // Force static factory, prohibit subclassing
     private EmailAccount() {
         Scanner s = new Scanner(System.in);
         System.out.print("Enter new user's first name: ");
