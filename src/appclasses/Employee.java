@@ -1,7 +1,6 @@
 package appclasses;
 
 import static appclasses.Company.*;
-
 import java.util.*;
 
 public class Employee {
@@ -34,6 +33,23 @@ public class Employee {
                 throw new IllegalArgumentException("Email must have first name for record.");
             else
                 return new EmailAccount(firstName, lastName, company);
+        }
+
+        private void receive(String message) {
+            if (mailboxSize < mailboxCapacity) {
+                inbox.add(message);
+                mailboxSize++;
+            } else
+                throw new IllegalStateException("Recipient mailbox full. Needs to clear space.");
+        }
+
+        private void send(EmailAccount recipient, String message) {
+            if (mailboxSize < mailboxCapacity) {
+                recipient.receive(message);
+                sent.add(message);
+                mailboxSize++;
+            } else
+                throw new IllegalStateException("Mailbox full. Please clear space.");
         }
 
         private void generateUsername(String firstName, String lastName) {
@@ -96,7 +112,7 @@ public class Employee {
         email = EmailAccount.create(firstName, lastName, company);
     }
 
-    public static Employee instance(String company, int salary) {
+    public static Employee getInstance(String company, int salary) {
         return new Employee(company, salary);
     }
 
@@ -104,9 +120,27 @@ public class Employee {
     public int getSalary()            { return salary;                      }
     public Department getDepartment() { return department;                  }
     public Sex getGender()            { return gender;                      }
-    public String getEmail()    { return email.toString();                       }
+    public String getEmail()          { return email.toString();            }
     public String getUsername()       { return email.username;              }
     public String getAddress()        { return email.address;               }
+
+    public List<String> getInbox() {
+        List<String> inbox = new ArrayList<>(email.inbox);
+        return inbox;
+    }
+
+    public List<String> getSent() {
+        List<String> sent = new ArrayList<>(email.sent);
+        return sent;
+    }
+
+    public void receive(String message) {
+        email.receive(message);
+    }
+
+    public void send(Employee recipient, String message) {
+        email.send(recipient.email, message);
+    }
 
     public void changePassword(String password) {
         email.alterPassword(password);
