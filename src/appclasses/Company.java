@@ -1,7 +1,7 @@
 package appclasses;
 
 import java.util.*;
-import java.util.stream.Collectors;
+import static java.util.stream.Collectors.*;
 
 public class Company implements Organization {
     private static final Company INSTANCE = new Company("Apache", 1956, new ArrayList<>());
@@ -64,7 +64,8 @@ public class Company implements Organization {
     }
 
     public void communicate(String message) {
-
+        for (Employee e : employees)
+            e.receive(message);
     }
 
     public String companyToString() {
@@ -75,28 +76,25 @@ public class Company implements Organization {
         List<Employee> current = employees;
         return current
                 .stream()
-                .collect(
-                        Collectors.groupingBy(Employee::getDepartment));
+                .collect(groupingBy(Employee::getDepartment));
     }
 
     public Map<Department, Long> countByDepartment() {
         List<Employee> current = employees;
         return current
                 .stream()
-                .collect(
-                        Collectors.groupingBy(
+                .collect(groupingBy(
                                 Employee::getDepartment,
-                                Collectors.counting()));
+                                counting()));
     }
 
     public Map<Department, Integer> salaryByDepartment() {
         List<Employee> current = employees;
         return current
                 .stream()
-                .collect(
-                        Collectors.groupingBy(
+                .collect(groupingBy(
                                 Employee::getDepartment,
-                                Collectors.reducing(
+                                reducing(
                                         0,
                                         Employee::getSalary,
                                         Integer::sum)));
