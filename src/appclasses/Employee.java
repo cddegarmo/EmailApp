@@ -112,8 +112,25 @@ public class Employee {
         email = EmailAccount.create(firstName, lastName, company);
     }
 
+    private Employee(String firstName, String lastName, Sex gender, int dep, int salary) {
+        this.firstName = firstName;
+        this.lastName  = lastName;
+        this.gender    = gender;
+        for (Department d : Department.values()) {
+            if (d.getCode() == dep)
+                department = d;
+        }
+        this.salary    = salary;
+        email = EmailAccount.create(firstName, lastName, "Apache");
+    }
+
     public static Employee getInstance(String company, int salary) {
         return new Employee(company, salary);
+    }
+
+    public static Employee getInstance(String firstName, String lastName,
+                                       Sex gender, int department, int salary) {
+        return new Employee(firstName, lastName, gender, department, salary);
     }
 
     public String getName()           { return lastName + ", " + firstName; }
@@ -123,6 +140,10 @@ public class Employee {
     public String getEmail()          { return email.toString();            }
     public String getUsername()       { return email.username;              }
     public String getAddress()        { return email.address;               }
+
+    public void setCompany(String s) {
+        company = s;
+    }
 
     public List<String> getInbox() {
         List<String> inbox = new ArrayList<>(email.inbox);
