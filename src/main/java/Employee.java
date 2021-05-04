@@ -1,6 +1,8 @@
-package appclasses;
+package main.java;
+import main.java.Company.*;
 
-import static appclasses.Company.*;
+import java.nio.file.Path;
+import java.text.MessageFormat;
 import java.util.*;
 
 public class Employee {
@@ -84,19 +86,13 @@ public class Employee {
         }
     }
 
-    private static class EmployeeFormatter {
-        private final ResourceBundle resource;
-        private final ResourceBundle config;
-        private
-    }
-
     private String firstName;
     private String lastName;
     private Sex gender;
     private String company;
-    private EmailAccount email;
-    private Department department = null;
-    private int salary;
+    private EmailAccount       email;
+    private Company.Department department = null;
+    private int                salary;
 
     private Employee(String companyName, int salary) {
         Scanner s = new Scanner(System.in);
@@ -139,9 +135,11 @@ public class Employee {
         return new Employee(firstName, lastName, gender, department, salary);
     }
 
-    public String getName()           { return lastName + ", " + firstName; }
+    public String getFirstName()      { return firstName;                   }
+    public String getLastName()       { return lastName;                    }
     public int getSalary()            { return salary;                      }
     public Department getDepartment() { return department;                  }
+    public String getDepName()        { return department.getName();        }
     public Sex getGender()            { return gender;                      }
     public String getEmail()          { return email.toString();            }
     public String getUsername()       { return email.username;              }
@@ -194,5 +192,10 @@ public class Employee {
         int result = firstName.hashCode();
         result = 31 * result + lastName.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("(%s, %s)", lastName, firstName);
     }
 }
