@@ -1,5 +1,7 @@
-package appclasses;
+package main.java;
 
+import java.nio.file.Path;
+import java.text.MessageFormat;
 import java.util.*;
 import static java.util.stream.Collectors.*;
 
@@ -10,7 +12,7 @@ public class Company implements Organization {
         SALES(1, "Sales"),
         DEVELOPMENT(2, "Development"),
         ACCOUNTING(3, "Accounting"),
-        NONE(4, "");
+        NONE(4, "N/A");
 
         private int code;
         private String name;
@@ -22,10 +24,34 @@ public class Company implements Organization {
         public String getName() { return name; }
     }
 
+    private static class EmployeeFormatter {
+        private final ResourceBundle resource;
+        private final ResourceBundle config;
+        private final MessageFormat employees;
+        private final Path dataFolder;
+
+        private EmployeeFormatter() {
+            resource = ResourceBundle.getBundle("main.resources.employees");
+            config   = ResourceBundle.getBundle("main.resources.config");
+            employees = new MessageFormat(config.getString("employee.data"));
+            Path current = Path.of("").toAbsolutePath();
+            dataFolder = current.resolve(config.getString("data.folder"));
+        }
+
+        private String format(Employee e) {
+            return MessageFormat.format(resource.getString("employee.format"),
+                                        e.getLastName(),
+                                        e.getFirstName(),
+                                        e.getDepartment(),
+                                        e.getSalary());
+        }
+    }
+
     private String name;
     private int yearFounded;
     private List<Employee> employees;
     private int numOfEmployees;
+    private EmployeeFormatter employeeFormatter = new EmployeeFormatter();
 
     private Company(String name, int year, List<Employee> founders) {
         this.name = name;
@@ -47,6 +73,15 @@ public class Company implements Organization {
     public int getYearFounded()          { return yearFounded;    }
     public List<Employee> getEmployees() { return employees;      }
     public int getNumOfEmployees()       { return numOfEmployees; }
+
+    public EmployeeFormatter getEmployeeFormatter() {
+        return employeeFormatter;
+    }
+
+    public void printEmployees() {
+        for (Employee e : employees)
+            System.out.println(employeeFormatter.format(e));
+    }
 
     public void hire(Employee e) {
         employees.add(e);
@@ -72,28 +107,28 @@ public class Company implements Organization {
         return String.format("%s\nFounded in %d", name, yearFounded);
     }
 
-    public Map<Department, List<Employee>> employeesByDepartment() {
+    public Map<String, List<Employee>> employeesByDepartment() {
         List<Employee> current = employees;
         return current
                 .stream()
-                .collect(groupingBy(Employee::getDepartment));
+                .collect(groupingBy(Employee::getDepName));
     }
 
-    public Map<Department, Long> countByDepartment() {
+    public Map<String, Long> countByDepartment() {
         List<Employee> current = employees;
         return current
                 .stream()
                 .collect(groupingBy(
-                                Employee::getDepartment,
+                                Employee::getDepName,
                                 counting()));
     }
 
-    public Map<Department, Integer> salaryByDepartment() {
+    public Map<String, Integer> salaryByDepartment() {
         List<Employee> current = employees;
         return current
                 .stream()
                 .collect(groupingBy(
-                                Employee::getDepartment,
+                                Employee::getDepName,
                                 reducing(
                                         0,
                                         Employee::getSalary,
