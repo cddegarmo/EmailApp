@@ -84,6 +84,12 @@ public class Employee {
         }
     }
 
+    private static class EmployeeFormatter {
+        private final ResourceBundle resource;
+        private final ResourceBundle config;
+        private
+    }
+
     private String firstName;
     private String lastName;
     private Sex gender;
