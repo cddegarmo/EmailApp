@@ -1,16 +1,29 @@
 package user;
-import appclasses.*;
-import java.util.*;
+import main.java.*;
+import main.java.Employee.*;
+
+import java.nio.file.Path;
+
+import static main.java.Employee.Sex.*;
 
 public class Register {
     public static void main(String[] args) {
-        Employee one = Employee.getInstance("Apache", 128000);
-        Employee two = Employee.getInstance("Apache", 111000);
-        one.send(two, "Hello, one, my name is two.");
-        two.send(one, "I really don't like you.");
-        System.out.println(one.getSent().toString());
-        System.out.println(two.getInbox().toString());
-        System.out.println(one.getInbox().toString());
-        System.out.println(two.getSent().toString());
+        Company apache = Company.found();
+        Employee one = Employee.getInstance("William", "Hix",
+                                            MALE, 2, 120000);
+        Employee two = Employee.getInstance("Dillon", "DeGarmo",
+                                            MALE, 1, 111000);
+        Employee three = Employee.getInstance("Adele", "Christensen",
+                                              FEMALE, 3, 98000);
+        Employee four = Employee.getInstance("Roger", "Mayfield",
+                                             MALE, 4, 175000);
+        apache.hire(one);
+        apache.hire(two);
+        apache.hire(three);
+        apache.hire(four);
+        apache.printEmployees();
+        System.out.println(apache.employeesByDepartment().toString());
+        System.out.println(apache.salaryByDepartment().toString());
+        System.out.println(apache.countByDepartment().toString());
     }
 }

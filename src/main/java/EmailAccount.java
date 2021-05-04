@@ -1,4 +1,4 @@
-package appclasses;
+package main.java;
 
 import java.util.*;
 
