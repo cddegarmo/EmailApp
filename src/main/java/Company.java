@@ -1,7 +1,11 @@
 package main.java;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.util.*;
 import static java.util.stream.Collectors.*;
 
@@ -62,6 +66,37 @@ public class Company implements Organization {
 
     public static Company found() {
         return INSTANCE;
+    }
+
+    private Employee parseEmployee(String text) {
+        Employee employee = null;
+        try {
+            Object[] values = employeeFormatter.employees.parse(text);
+            String firstName = (String) values[0];
+            String lastName = (String) values[1];
+            int gender = Integer.parseInt((String) values[2]);
+            int department = Integer.parseInt((String) values[3]);
+            int salary = Integer.parseInt((String) values[4]);
+            employee = Employee.getInstance(firstName, lastName, gender, department, salary);
+        } catch (ParseException e) {
+            e.getMessage();
+        }
+        return employee;
+    }
+
+    public void loadEmployees() {
+        Path file = employeeFormatter.dataFolder.resolve(
+             employeeFormatter.config.getString("employees.folder"));
+        try (BufferedReader br = new BufferedReader(
+             new FileReader(String.valueOf(file)))) {
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                Employee e = parseEmployee(line);
+                hire(e);
+            }
+        } catch (IOException e) {
+            e.getMessage();
+        }
     }
 
     public String formalize(String s) {
