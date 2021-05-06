@@ -1,8 +1,6 @@
 package main.java;
-import main.java.Company.*;
 
-import java.nio.file.Path;
-import java.text.MessageFormat;
+import main.java.Company.*;
 import java.util.*;
 
 public class Employee {
@@ -114,10 +112,13 @@ public class Employee {
         email = EmailAccount.create(firstName, lastName, company);
     }
 
-    private Employee(String firstName, String lastName, Sex gender, int dep, int salary) {
+    private Employee(String firstName, String lastName, int gender, int dep, int salary) {
         this.firstName = firstName;
         this.lastName  = lastName;
-        this.gender    = gender;
+        if (gender == 1)
+            this.gender = Sex.MALE;
+        else
+            this.gender = Sex.FEMALE;
         for (Department d : Department.values()) {
             if (d.getCode() == dep)
                 department = d;
@@ -131,19 +132,19 @@ public class Employee {
     }
 
     public static Employee getInstance(String firstName, String lastName,
-                                       Sex gender, int department, int salary) {
+                                       int gender, int department, int salary) {
         return new Employee(firstName, lastName, gender, department, salary);
     }
 
-    public String getFirstName()      { return firstName;                   }
-    public String getLastName()       { return lastName;                    }
-    public int getSalary()            { return salary;                      }
-    public Department getDepartment() { return department;                  }
-    public String getDepName()        { return department.getName();        }
-    public Sex getGender()            { return gender;                      }
-    public String getEmail()          { return email.toString();            }
-    public String getUsername()       { return email.username;              }
-    public String getAddress()        { return email.address;               }
+    public String getFirstName()      { return firstName;            }
+    public String getLastName()       { return lastName;             }
+    public int getSalary()            { return salary;               }
+    public Department getDepartment() { return department;           }
+    public String getDepName()        { return department.getName(); }
+    public Sex getGender()            { return gender;               }
+    public String getEmail()          { return email.toString();     }
+    public String getUsername()       { return email.username;       }
+    public String getAddress()        { return email.address;        }
 
     public void setCompany(String s) {
         company = s;
