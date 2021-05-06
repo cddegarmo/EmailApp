@@ -1,10 +1,4 @@
 package main.java;
-import main.java.*;
-import main.java.Employee.*;
-
-import java.nio.file.Path;
-
-import static main.java.Employee.Sex.*;
 
 public class Register {
     public static void main(String[] args) {
