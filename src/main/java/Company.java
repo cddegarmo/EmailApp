@@ -115,7 +115,7 @@ public class Company implements Organization {
 
     public void printEmployees() {
         for (Employee e : employees)
-            System.out.println(employeeFormatter.format(e));
+            System.out.println(getEmployeeFormatter().format(e));
     }
 
     public void hire(Employee e) {
@@ -143,31 +143,49 @@ public class Company implements Organization {
     }
 
     public Map<String, List<Employee>> employeesByDepartment() {
-        List<Employee> current = employees;
+        List<Employee> current = getEmployees();
         return current
-                .stream()
-                .collect(groupingBy(Employee::getDepName));
+             .stream()
+             .collect(groupingBy(Employee::getDepName));
     }
 
     public Map<String, Long> countByDepartment() {
-        List<Employee> current = employees;
+        List<Employee> current = getEmployees();
         return current
-                .stream()
-                .collect(groupingBy(
-                                Employee::getDepName,
-                                counting()));
+             .stream()
+             .collect(groupingBy(
+                  Employee::getDepName,
+                  counting()));
     }
 
     public Map<String, Integer> salaryByDepartment() {
-        List<Employee> current = employees;
+        List<Employee> current = getEmployees();
         return current
-                .stream()
-                .collect(groupingBy(
-                                Employee::getDepName,
-                                reducing(
-                                        0,
-                                        Employee::getSalary,
-                                        Integer::sum)));
+             .stream()
+             .collect(groupingBy(
+                  Employee::getDepName,
+                  reducing(
+                       0,
+                       Employee::getSalary,
+                       Integer::sum)));
+    }
+
+    private Map<String, Integer> salaryByGender() {
+        List<Employee> current = getEmployees();
+        return current
+             .stream()
+             .collect(groupingBy(
+                  Employee::getGenderLabel,
+                  summingInt(Employee::getSalary)));
+    }
+
+    private boolean payDisparity() {
+        Map<String, Integer> salaries = salaryByGender();
+        int maleSalary   = salaries.get("Male");
+        int femaleSalary = salaries.get("Female");
+        if (Math.abs(maleSalary - femaleSalary) > 10_000)
+            return true;
+        return false;
     }
 
     public boolean bonuses() { return true; }
