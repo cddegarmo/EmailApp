@@ -1,13 +1,11 @@
 package main.java;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
-import java.text.MessageFormat;
-import java.text.ParseException;
+import java.text.*;
 import java.util.*;
 import static java.util.stream.Collectors.*;
+import static main.java.Employee.*;
 
 public class Company implements Organization {
     private static final Company INSTANCE = new Company("Apache", 1956, new ArrayList<>());
@@ -108,6 +106,7 @@ public class Company implements Organization {
     public int getYearFounded()          { return yearFounded;    }
     public List<Employee> getEmployees() { return employees;      }
     public int getNumOfEmployees()       { return numOfEmployees; }
+    public boolean bonuses()             { return true;           }
 
     public EmployeeFormatter getEmployeeFormatter() {
         return employeeFormatter;
@@ -188,5 +187,36 @@ public class Company implements Organization {
         return false;
     }
 
-    public boolean bonuses() { return true; }
+    private Map<String, Long> countByGender() {
+        List<Employee> current = getEmployees();
+        return current
+             .stream()
+             .collect(groupingBy(
+                  Employee::getGenderLabel,
+                  counting()));
+    }
+
+    public void adjustSalaries() {
+        Map<String, Integer> salaries = salaryByGender();
+        Map<String, Long>    counts   = countByGender();
+        int maleSalary = salaries.get("Male");
+        int femaleSalary = salaries.get("Female");
+        if (payDisparity()) {
+            if (maleSalary >= femaleSalary)
+                employees.stream()
+                         .filter(employee -> employee.getGender() == Sex.MALE)
+                         .forEach(male -> {
+                             int difference = maleSalary - femaleSalary;
+                             male.reduceSalary((int) (difference / counts.get("Male")));
+                         });
+            else
+                employees.stream()
+                         .filter(employee -> employee.getGender() == Sex.FEMALE)
+                         .forEach(female -> {
+                             int difference = femaleSalary - maleSalary;
+                             female.reduceSalary((int) (difference / counts.get("Female")));
+                         });
+        }
+        System.out.println("Salaries adjusted to rectify pay disparity between genders.");
+    }
 }
