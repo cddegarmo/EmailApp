@@ -95,9 +95,9 @@ public class Employee {
     private String lastName;
     private Sex gender;
     private String company;
-    private EmailAccount       email;
-    private Company.Department department = null;
-    private int                salary;
+    private EmailAccount email;
+    private Department department = null;
+    private int salary;
 
     private Employee(String companyName, int salary) {
         Scanner s = new Scanner(System.in);
@@ -107,7 +107,7 @@ public class Employee {
         lastName = s.nextLine();
         System.out.print("Enter employee's gender (1 for male, 2 for female): ");
         gender = Sex.values()[s.nextInt() - 1];
-        company = companyName;
+        setCompany(companyName);
         System.out.println("Enter department code (1 for Sales, 2 for Development, " +
                 "3 for Accounting, 4 for None)");
         int dep = s.nextInt();
@@ -154,7 +154,11 @@ public class Employee {
     public String getUsername()       { return email.username;       }
     public String getAddress()        { return email.address;        }
 
-    public void setCompany(String s) {
+    public void reduceSalary(int amount) {
+        salary -= amount;
+    }
+
+    private void setCompany(String s) {
         company = s;
     }
 
