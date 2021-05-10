@@ -5,8 +5,10 @@ public class Register {
         Company apache = Company.found();
         apache.loadEmployees();
         apache.printEmployees();
-        System.out.println(apache.employeesByDepartment().toString());
-        System.out.println(apache.salaryByDepartment().toString());
-        System.out.println(apache.countByDepartment().toString());
+        apache.adjustSalaries();
+        apache.printEmployees();
+//        System.out.println(apache.employeesByDepartment().toString());
+//        System.out.println(apache.salaryByDepartment().toString());
+//        System.out.println(apache.countByDepartment().toString());
     }
 }
