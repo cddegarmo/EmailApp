@@ -6,7 +6,14 @@ import java.util.*;
 public class Employee {
 
     public enum Sex {
-        MALE, FEMALE
+        MALE("Male"), FEMALE("Female");
+
+        private String label;
+        private Sex(String gender) {
+            label = gender;
+        }
+
+        public String getLabel() { return label; }
     }
 
     private static class EmailAccount {
@@ -142,6 +149,7 @@ public class Employee {
     public Department getDepartment() { return department;           }
     public String getDepName()        { return department.getName(); }
     public Sex getGender()            { return gender;               }
+    public String getGenderLabel()    { return gender.label;         }
     public String getEmail()          { return email.toString();     }
     public String getUsername()       { return email.username;       }
     public String getAddress()        { return email.address;        }
