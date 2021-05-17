@@ -8,7 +8,7 @@ import static java.util.stream.Collectors.*;
 import static main.java.Employee.*;
 
 public class Company implements Organization {
-    private static final Company INSTANCE = new Company("Apache", 1956, new ArrayList<>());
+    private static final Company INSTANCE = new Company("Apache", 1956);
 
     public enum Department {
         SALES(1, "Sales"),
@@ -49,17 +49,16 @@ public class Company implements Organization {
         }
     }
 
-    private String name;
-    private int yearFounded;
+    private final String name;
+    private final int yearFounded;
     private List<Employee> employees;
     private int numOfEmployees;
-    private EmployeeFormatter employeeFormatter = new EmployeeFormatter();
+    private final EmployeeFormatter employeeFormatter = new EmployeeFormatter();
 
-    private Company(String name, int year, List<Employee> founders) {
+    private Company(String name, int year) {
         this.name = name;
         yearFounded = year;
-        employees = founders;
-        numOfEmployees = founders.size();
+        employees = new ArrayList<>();
     }
 
     public static Company found() {
