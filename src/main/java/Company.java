@@ -4,11 +4,15 @@ import java.io.*;
 import java.nio.file.Path;
 import java.text.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import static java.util.stream.Collectors.*;
 import static main.java.Employee.*;
 
 public class Company implements Organization {
     private static final Company INSTANCE = new Company("Apache", 1956);
+    private static final Logger  logger   = Logger.getLogger(Employee.class.getName());
 
     public enum Department {
         SALES(1, "Sales"),
@@ -76,7 +80,7 @@ public class Company implements Organization {
             int salary = Integer.parseInt((String) values[4]);
             employee = Employee.getInstance(firstName, lastName, gender, department, salary);
         } catch (ParseException e) {
-            e.getMessage();
+            logger.log(Level.WARNING, "Error parsing employee " + e.getMessage(), e);
         }
         return employee;
     }
@@ -92,7 +96,7 @@ public class Company implements Organization {
                 hire(e);
             }
         } catch (IOException e) {
-            e.getMessage();
+            logger.log(Level.SEVERE, "Error loading employees " + e.getMessage(), e);
         }
     }
 
@@ -125,7 +129,7 @@ public class Company implements Organization {
         employees.remove(e);
         numOfEmployees--;
     }
-
+    
     public void fire(List<Employee> employees) {
         this.employees.removeAll(employees);
         numOfEmployees -= employees.size();
@@ -145,6 +149,13 @@ public class Company implements Organization {
         return current
              .stream()
              .collect(groupingBy(Employee::getDepName));
+    }
+
+    public Map<String, List<Employee>> employeesByGender() {
+        List<Employee> current = getEmployees();
+        return current
+             .stream()
+             .collect(groupingBy(Employee::getGenderLabel));
     }
 
     public Map<String, Long> countByDepartment() {
