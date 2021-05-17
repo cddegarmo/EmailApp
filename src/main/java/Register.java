@@ -7,8 +7,5 @@ public class Register {
         apache.printEmployees();
         apache.adjustSalaries();
         apache.printEmployees();
-//        System.out.println(apache.employeesByDepartment().toString());
-//        System.out.println(apache.salaryByDepartment().toString());
-//        System.out.println(apache.countByDepartment().toString());
     }
 }
