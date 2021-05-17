@@ -155,7 +155,12 @@ public class Employee {
     public String getAddress()        { return email.address;        }
 
     public void reduceSalary(int amount) {
-        salary -= amount;
+        int tempSalary = salary;
+        int newSalary  = tempSalary - amount;
+        if (newSalary > 40000)
+            salary = newSalary;
+        else
+            salary = 40000;
     }
 
     private void setCompany(String s) {
@@ -209,6 +214,6 @@ public class Employee {
 
     @Override
     public String toString() {
-        return String.format("(%s, %s)", lastName, firstName);
+        return String.format("(%s, %s)%n", lastName, firstName);
     }
 }
