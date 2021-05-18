@@ -1,6 +1,5 @@
 package main.java;
 
-import main.java.EmailAccount;
 import java.util.*;
 
 // Simple tool utilizes EmailAccount.java to create email accounts based on user input
